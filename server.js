@@ -12,7 +12,7 @@ const app = express()
 dotenv.config()
 
 // Connect to database
-mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, () => console.log(`logged on to the ${process.env.DB_NAME} database.`))
+mongoose.connect(`${process.env.DATABASE}`, () => console.log(`logged on to the ${process.env.DB_NAME} database.`))
 // Get mongoose to use the global promise library
 mongoose.Promise = global.Promise
 
