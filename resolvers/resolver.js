@@ -3,7 +3,7 @@ import gdbList from '../models/GDB'
 
 const resolvers = {
   Query: {    
-    GDB(root, args) {
+    GDB (root, args) {
       if (args.gdbno) {
         const {gdbno} = args
         // TODO: use async/await
@@ -16,7 +16,7 @@ const resolvers = {
         })
       }
     },
-    GDBS(root, args) {
+    GDBS (root, args) {
       if (args.createdBy) {
         const {createdBy} = args.createdBy
         // TODO: use async/await
@@ -36,35 +36,38 @@ const resolvers = {
         })
       }
     },
-    //getStatus(gdbno: String!): Status!
-    getStatus(root, args) {
+    getStatus (root, args) {
       const gdb = gdbData.filter(gdb => gdb.gdbno === args.gdbno)
-      console.log('GDB: ' + gdb)
       return gdb[0].status
     }
   },
   Mutation: {
-    createGDB(root, args) {
-      console.log({args})
+    createGDB (root, args) {
+      // Todo: use date
       const newGDB = {
         gdbno: args.gdbno,
-        creationDate: args.creationDate,
+        creationDate: new Date(),
         createdBy: args.createdBy,
         customer: args.customer,
         active: true,
         status: [{
           statusType: args.statusType || 'OPEN',
-          statusDate: args.statusDate || args.creationDate,
+          statusDate: args.statusDate || new Date(),
           statusDesc: args.statusDesc || ''
         }]
       }
-      gdbData.push(newGDB)
-      return newGDB
+
+      return gdbList.create(newGDB, (err, gdb) => {
+        if (err) {
+          console.log(err)
+          return err
+        }
+        console.log(`inserted doc: ${gdb}`)
+        return gdb
+      })   
     },
     // updateStatus(gdbno: String!, statusType: String!, statusDate: String, statusDesc: String)
-    updateStatus(root, args) {
-      console.log(`gdbno: ${args.gdbno}`)
-
+    updateStatus (root, args) {
       let status = {statusType: args.statusType}
       
       if (args.statusDate !== undefined){
