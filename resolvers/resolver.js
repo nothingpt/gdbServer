@@ -1,22 +1,39 @@
 import gdbData from '../data/mock'
+import gdbList from '../models/GDB'
 
 const resolvers = {
-  Query: {
+  Query: {    
     GDB(root, args) {
       if (args.gdbno) {
-        console.log(`gdbno: ${args.gdbno}`)
-        var gdbno = args.gdbno
-        return gdbData.filter(gdb => {
-          return gdb.gdbno == gdbno
-        })[0]
+        const {gdbno} = args
+        // TODO: use async/await
+        return gdbList.findOne({gdbno}, (err, data) => {
+          if (err){
+            return err
+          }
+
+          return data
+        })
       }
     },
     GDBS(root, args) {
       if (args.createdBy) {
-        var createdBy = args.createdBy
-        return gdbData.filter(gdb => gdb.createdBy === createdBy)
+        const {createdBy} = args.createdBy
+        // TODO: use async/await
+        return gdbList.find({createdBy}, (err, data) => {
+          if (err) {
+            return err
+          }
+          return data
+        })
       } else {
-        return gdbData
+        return gdbList.find({}, (err, data) => {
+          if (err) {
+            return err
+          }
+
+          return data
+        })
       }
     },
     //getStatus(gdbno: String!): Status!
