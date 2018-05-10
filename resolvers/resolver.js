@@ -2,13 +2,13 @@ import gdbData from '../data/mock'
 import gdbList from '../models/GDB'
 
 const resolvers = {
-  Query: {    
+  Query: {
     getGDB (root, args) {
       if (args.gdbno) {
         const {gdbno} = args
         // TODO: use async/await
         return gdbList.findOne({gdbno}, (err, data) => {
-          if (err){
+          if (err) {
             return err
           }
 
@@ -64,22 +64,22 @@ const resolvers = {
             reject(err)
           }
           resolve(gdb._doc)
-        })  
+        })
       })
-      
+
       return res
     },
     // updateStatus(gdbno: String!, statusType: String!, statusDate: String, statusDesc: String)
     updateStatus (root, args) {
       let status = {statusType: args.statusType}
-      
+
       if (args.statusDate !== undefined) {
         status.statusDate = args.statusDate
       }
 
-      if (args.statusDesc !== undefined){
+      if (args.statusDesc !== undefined) {
         status.statusDesc = args.statusDesc
-      }      
+      }
 
       gdbData.forEach(gdb => {
         if (gdb.gdbno === args.gdbno) {
@@ -96,13 +96,13 @@ const resolvers = {
       console.log('GDB: ' + gdb[0].gdbno)
       return gdb[0]
     },
-    //updateGDB(gdbno: String!, creationDate: String, createdBy: String, customer: String, active: Boolean): GDB
+    // updateGDB(gdbno: String!, creationDate: String, createdBy: String, customer: String, active: Boolean): GDB
     updateGDB (root, args) {
       // find index
       const index = gdbData.findIndex(gdb => gdb.gdbno == args.gdbno)
 
       // check if property is supplied in the args object, and if so updates the document
-      if (args.creationDate !== undefined){
+      if (args.creationDate !== undefined) {
         gdbData[index].creationDate = args.creationDate
       }
 
