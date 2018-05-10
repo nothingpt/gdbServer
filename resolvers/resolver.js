@@ -3,7 +3,7 @@ import gdbList from '../models/GDB'
 
 const resolvers = {
   Query: {    
-    GDB (root, args) {
+    getGDB (root, args) {
       if (args.gdbno) {
         const {gdbno} = args
         // TODO: use async/await
@@ -16,7 +16,7 @@ const resolvers = {
         })
       }
     },
-    GDBS (root, args) {
+    getGDBS (root, args) {
       if (args.createdBy) {
         const {createdBy} = args.createdBy
         // TODO: use async/await
@@ -42,7 +42,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    createGDB (root, args) {
+    async createGDB (root, args) {      
       // Todo: use date
       const newGDB = {
         gdbno: args.gdbno,
@@ -57,20 +57,23 @@ const resolvers = {
         }]
       }
 
-      return gdbList.create(newGDB, (err, gdb) => {
-        if (err) {
-          console.log(err)
-          return err
-        }
-        console.log(`inserted doc: ${gdb}`)
-        return gdb
-      })   
+      const res = new Promise((resolve, reject) => {
+        gdbList.create(newGDB, (err, gdb) => {
+          if (err) {
+            console.log(err)
+            reject(err)
+          }
+          resolve(gdb._doc)
+        })  
+      })
+      
+      return res
     },
     // updateStatus(gdbno: String!, statusType: String!, statusDate: String, statusDesc: String)
     updateStatus (root, args) {
       let status = {statusType: args.statusType}
       
-      if (args.statusDate !== undefined){
+      if (args.statusDate !== undefined) {
         status.statusDate = args.statusDate
       }
 
