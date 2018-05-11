@@ -1,4 +1,3 @@
-import gdbData from '../data/mock'
 import gdbList from '../models/GDB'
 
 const resolvers = {
@@ -37,8 +36,16 @@ const resolvers = {
       }
     },
     getStatus (root, args) {
-      const gdb = gdbData.filter(gdb => gdb.gdbno === args.gdbno)
-      return gdb[0].status
+      const res = new Promise((resolve, reject) => {
+        gdbList.findOne({gdbno: args.gdbno}, (err, gdb) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(gdb)
+        })
+      })
+      console.log(`res: ${res}`)
+      return res.status
     }
   },
   Mutation: {
