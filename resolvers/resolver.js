@@ -72,29 +72,33 @@ const resolvers = {
     // updateStatus(gdbno: String!, statusType: String!, statusDate: String, statusDesc: String)
     updateStatus (root, args) {
       let status = {statusType: args.statusType}
-
+      // Create an object with only the fields supplied by the args
       if (args.statusDate !== undefined) {
-        status.statusDate = args.statusDate
+        status.statusDate = args.statusDate || new Date()
       }
 
       if (args.statusDesc !== undefined) {
         status.statusDesc = args.statusDesc
       }
 
-      gdbData.forEach(gdb => {
-        if (gdb.gdbno === args.gdbno) {
-          gdb.status.push(status)
-        }
+      const res = new Promise((resolve, reject) => {
+        gdbList.update({gdbno: args.gdbno}, {$push: {status}}, (err, doc) => {
+          if (err) {
+            reject(err)
+          }
+          const gdb = new Promise((resolve, reject) => {
+            gdbList.findOne({gdbno: args.gdbno}, (err, doc) => {
+              if (err) {
+                reject(err)
+              }
+              resolve(doc)
+            })
+          })
+          resolve(gdb)
+        })
       })
 
-      const gdb = gdbData.filter(gdb => {
-        if (gdb.gdbno === args.gdbno) {
-          return gdb
-        }
-      })
-
-      console.log('GDB: ' + gdb[0].gdbno)
-      return gdb[0]
+      return res
     },
     // updateGDB(gdbno: String!, creationDate: String, createdBy: String, customer: String, active: Boolean): GDB
     updateGDB (root, args) {
