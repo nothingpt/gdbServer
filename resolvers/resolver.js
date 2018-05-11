@@ -5,7 +5,7 @@ const resolvers = {
     getGDB (root, args) {
       if (args.gdbno) {
         const {gdbno} = args
-        // TODO: use async/await
+        // TODO: use Promises
         return gdbList.findOne({gdbno}, (err, data) => {
           if (err) {
             return err
@@ -18,7 +18,7 @@ const resolvers = {
     getGDBS (root, args) {
       if (args.createdBy) {
         const {createdBy} = args.createdBy
-        // TODO: use async/await
+        // TODO: use Promises
         return gdbList.find({createdBy}, (err, data) => {
           if (err) {
             return err
