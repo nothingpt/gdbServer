@@ -102,27 +102,19 @@ const resolvers = {
     },
     // updateGDB(gdbno: String!, creationDate: String, createdBy: String, customer: String, active: Boolean): GDB
     updateGDB (root, args) {
-      // find index
-      const index = gdbData.findIndex(gdb => gdb.gdbno == args.gdbno)
+      // create object to store args
+      let gdb = {...args}
 
-      // check if property is supplied in the args object, and if so updates the document
-      if (args.creationDate !== undefined) {
-        gdbData[index].creationDate = args.creationDate
-      }
+      const res = new Promise((resolve, reject) => {
+        gdbList.findOneAndUpdate({gdbno: gdb.gdbno}, gdb, {new: true}, (err, doc) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(doc)
+        })
+      })
 
-      if (args.createdBy !== undefined) {
-        gdbData[index].createdBy = args.createdBy
-      }
-
-      if (args.customer !== undefined) {
-        gdbData[index].customer = args.customer
-      }
-
-      if (args.active !== undefined) {
-        gdbData[index].active = args.active
-      }
-
-      return gdbData[index]
+      return res
     }
   }
 }
