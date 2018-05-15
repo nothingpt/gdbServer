@@ -5,34 +5,41 @@ const resolvers = {
     getGDB (root, args) {
       if (args.gdbno) {
         const {gdbno} = args
-        // TODO: use Promises
-        return gdbList.findOne({gdbno}, (err, data) => {
-          if (err) {
-            return err
-          }
-
-          return data
+        const res = new Promise((resolve, reject) => {
+          gdbList.findOne({gdbno}, (err, gdb) => {
+            if (err) {
+              reject(err)
+            }
+  
+            resolve(gdb)
+          })
         })
+        return res
       }
     },
     getGDBS (root, args) {
       if (args.createdBy) {
         const {createdBy} = args.createdBy
-        // TODO: use Promises
-        return gdbList.find({createdBy}, (err, data) => {
-          if (err) {
-            return err
-          }
-          return data
-        })
+        const res = new Promise((resolve, reject) => {
+          gdbList.find({createdBy}, (err, gdb) => {
+            if (err) {
+              reject(err)
+            }
+            resolve(gdb)
+          })
+        })  
+        return res
       } else {
-        return gdbList.find({}, (err, data) => {
-          if (err) {
-            return err
-          }
-
-          return data
+        const res = new Promise((resolve, reject) => {
+          gdbList.find({}, (err, gdb) => {
+            if (err) {
+              reject(err)
+            }
+  
+            return gdb
+          })
         })
+        return res
       }
     },
     getStatus (root, args) {
@@ -44,12 +51,11 @@ const resolvers = {
           resolve(gdb)
         })
       })
-      console.log(`res: ${res}`)
       return res.status
     }
   },
   Mutation: {
-    async createGDB (root, args) {      
+    createGDB (root, args) {
       // Todo: use date
       const newGDB = {
         gdbno: args.gdbno,
@@ -93,6 +99,7 @@ const resolvers = {
           if (err) {
             reject(err)
           }
+          
           const gdb = new Promise((resolve, reject) => {
             gdbList.findOne({gdbno: args.gdbno}, (err, doc) => {
               if (err) {
