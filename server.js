@@ -54,7 +54,7 @@ GDB.insertMany(gdb, (err, doc) => {
     console.log(`An error has occurred: ${err}`)
     return
   }
-  console.log(`The following document was saved to the DB: ${doc}`)  
+  console.log(`The following document was saved to the DB: ${doc}`)
 })
 
 app.use('/graphql', express_graphql({

@@ -10,7 +10,7 @@ const resolvers = {
             if (err) {
               reject(err)
             }
-  
+
             resolve(gdb)
           })
         })
@@ -27,7 +27,7 @@ const resolvers = {
             }
             resolve(gdb)
           })
-        })  
+        })
         return res
       } else {
         const res = new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ const resolvers = {
             if (err) {
               reject(err)
             }
-  
+
             return gdb
           })
         })
@@ -73,7 +73,6 @@ const resolvers = {
       const res = new Promise((resolve, reject) => {
         gdbList.create(newGDB, (err, gdb) => {
           if (err) {
-            console.log(err)
             reject(err)
           }
           resolve(gdb._doc)
@@ -99,7 +98,7 @@ const resolvers = {
           if (err) {
             reject(err)
           }
-          
+
           const gdb = new Promise((resolve, reject) => {
             gdbList.findOne({gdbno: args.gdbno}, (err, doc) => {
               if (err) {
