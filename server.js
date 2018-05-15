@@ -49,13 +49,14 @@ const gdb = [
   }
 ]
 
-GDB.insertMany(gdb, (err, doc) => {
-  if (err) {
-    console.log(`An error has occurred: ${err}`)
-    return
-  }
-  console.log(`The following document was saved to the DB: ${doc}`)
-})
+const res = new Promise((resolve, reject) => {
+  GDB.insertMany(gdb, (err, gdb) => {
+    if (err) {
+      reject(err)
+    }
+    resolve(gdb)
+  })
+}).then((gdb) => console.log(`Documents Added: ${gdb}`))
 
 app.use('/graphql', express_graphql({
   schema,
