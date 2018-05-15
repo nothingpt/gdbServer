@@ -15,13 +15,13 @@ should have node.js (I use v9.5.0) + npm/yarn
 
 A step by step series of examples that tell you have to get a development env running
 
-run 'npm install' to install the dependencies
+Install the dependencies
 
 ```
 npm install
 ```
 
-And then run 'npm start' to start the server
+Start the server
 
 ```
 npm start
@@ -29,8 +29,8 @@ npm start
 
 ## Version
 
- * This version only reads/writes to an array. On the next commits, I will change that to a mongodb Database for persistense.
- * Soon will be deployed a GDB Client which uses a react frontend to access the server.
+ * The master branch uses array to store the data. Other Brancher will use DB for persistent storage.
+ * The branch Client, when available, will be the frontend (React.js)
 
 ## Authors
 
