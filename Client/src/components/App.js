@@ -1,5 +1,4 @@
 import React from 'react'
-import { render } from 'react-dom'
 import axios from 'axios'
 
 const axiosGraphql = axios.create({
@@ -27,7 +26,7 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      gdbs : []
+      gdbs: []
     }
   }
 
@@ -38,7 +37,7 @@ class App extends React.Component {
   onFetchFromDB () {
     axiosGraphql
       .post('', { query: query})
-      .then(result => {        
+      .then(result => {    
         this.setState({gdbs: result.data.data.GDBS})
       })
       .catch(err => console.log(`Error: ${err}`))
@@ -52,6 +51,5 @@ class App extends React.Component {
     )
   }
 }
-
 
 export default App
