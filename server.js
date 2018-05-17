@@ -2,11 +2,12 @@ import dotenv from 'dotenv'
 import express from 'express'
 import express_graphql from 'express-graphql'
 import { buildSchema } from 'graphql'
+import cors from 'cors'
 
 import schema from './schemas/schema'
-import gdbData from './data/mock'
 
 const app = express()
+app.use(cors())
 
 dotenv.config()
 
