@@ -36,8 +36,8 @@ class App extends React.Component {
 
   onFetchFromDB () {
     axiosGraphql
-      .post('', { query: query})
-      .then(result => {    
+      .post('', {query: query})
+      .then(result => {
         this.setState({gdbs: result.data.data.GDBS})
       })
       .catch(err => console.log(`Error: ${err}`))
@@ -46,7 +46,9 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        HELLO WORLD!
+        {this.state.gdbs.map(gdb => {
+          <span key={gdb.gdbno}>x</span>
+        })}
       </div>
     )
   }
