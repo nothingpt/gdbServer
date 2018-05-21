@@ -13,8 +13,7 @@ export default class GDB extends Component {
     */
     return (
       <div>
-        { gdb.gdbno } - { gdb.customer } - { gdb.createdBy } - { gdb.creationDate } <br />
-        { gdb.status[sLen - 1].statusType}
+        { gdb.gdbno } - { gdb.customer } - { gdb.createdBy } - { gdb.creationDate } - { gdb.status[sLen - 1].statusType}
       </div>
     )
   }
