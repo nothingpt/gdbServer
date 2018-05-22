@@ -11,18 +11,18 @@ body {
 
 .container {
   display: grid;
-  grid-gap: 5px;
   grid-template-rows: 30px 1fr;
 }
 
 .header {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  background-color: #ffa15e;
+  background-color: #7bebff;
   align-content: center;
 }
 
 .logo {
+  padding-left: 5px;
 }
 
 .header-main {
@@ -36,10 +36,10 @@ body {
 
 .search input {
   border-radius: 5px;
-  color: #FFF;
+  color: rgb(134, 134, 134);
   border: 1px solid #FFF;
   border-radius: 8px;
-  background: transparent;
+  background: honeydew;
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -56,10 +56,14 @@ body {
   background-color: #eee;
   display: inline-block;
   padding: 10px;
-
-
-
 }
 
 .main {
+  background-color: #FFF;
+  min-height: 95vh;
+  max-height: 95vh;
+  min-width: 90vw;
+  max-width: 90vw;
+  margin: 0 auto;
+  display: grid;
 }
