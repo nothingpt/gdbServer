@@ -3,11 +3,9 @@ import axios from 'axios'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 
-import Gdbs from './Gdbs'
+import styles from '../css/style.css'
 
-const axiosGraphql = axios.create({
-  baseURL: 'http://localhost:3000/graphql'
-})
+import Gdbs from './Gdbs'
 
 const gQUERY = gql`
     query GDBS {
@@ -46,8 +44,24 @@ class App extends React.Component {
   }
 
   render () {
+    console.log(styles)
     return (
-      <Gdbs />
+      <div className='container'>
+        <div className='header'>
+          <div className='logo'>
+            GDB Tracker
+          </div>
+          <div className='header-middle'>
+
+          </div>
+          <div className='search'>
+            <input type='text' />
+          </div>
+        </div>  
+        <div className='main'>
+          <Gdbs />
+        </div>
+      </div> 
     )
   }
 }

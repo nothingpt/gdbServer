@@ -24,13 +24,11 @@ const Gdbs = () => (
   <Query query={Q}>
   {({ data, loading, error }) => {
     if (loading) {
-      console.log('LOADING')
       return (<h1>LOADING</h1>)
     } else if (error) {
       return (<h1>ERROR { error }</h1>)
     } else {
       if (data) {
-        console.log('GDBS')
 
         return (
           <div>
