@@ -52,6 +52,7 @@ body {
   outline: 0;
   padding-left: 5px;
 }
+
 .search .input-placeholder{
   background-color: #eee;
   display: inline-block;
@@ -66,4 +67,11 @@ body {
   max-width: 90vw;
   margin: 0 auto;
   display: grid;
+}
+
+/*---------------------------------/
+/ GDB                              /
+/---------------------------------*/
+.gdb-container {
+  border: 1px dotted #b1b1b1;
 }

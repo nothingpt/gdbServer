@@ -22,23 +22,22 @@ query GDBS {
 
 const Gdbs = () => (
   <Query query={Q}>
-  {({ data, loading, error }) => {
-    if (loading) {
-      return (<h1>LOADING</h1>)
-    } else if (error) {
-      return (<h1>ERROR { error }</h1>)
-    } else {
-      if (data) {
-
-        return (
-          <div>
+    {({ data, loading, error }) => {
+      if (loading) {
+        return (<h1>LOADING</h1>)
+      } else if (error) {
+        return (<h1>ERROR { error }</h1>)
+      } else {
+        if (data) {
+          return (
+            <div>
             GDBS - { data.GDBS.length }
-            { data.GDBS.map(g => <GDB key={g.gdbno} gdb={g}/>)}
-          </div>
-        )
+              { data.GDBS.map(g => <GDB key={g.gdbno} gdb={g} />)}
+            </div>
+          )
+        }
       }
-    }
-  }}
+    }}
   </Query>
 )
 
