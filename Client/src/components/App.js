@@ -6,11 +6,9 @@ import Gdbs from './Gdbs'
 import Search from './Search'
 
 class App extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      gdbs: []
-    }
+
+  newGDB () {
+    // Todo: Create new gdb
   }
 
   render () {
@@ -19,7 +17,7 @@ class App extends React.Component {
         <div className='header'>
           <div className='logo'>GDB Tracker</div>
           <div className='header-main' />
-          <div className='header-add'>[+]</div>
+          <div className='header-add'><span onClick={this.newGDB}>[+]</span></div>
           <div className='search'><Search /></div>
         </div>
         <div className='main'>
