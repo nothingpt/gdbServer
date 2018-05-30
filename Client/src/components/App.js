@@ -3,6 +3,7 @@ import React from 'react'
 import styles from '../css/style.css'
 
 import Gdbs from './Gdbs'
+import Search from './Search'
 
 class App extends React.Component {
   constructor (props) {
@@ -18,7 +19,8 @@ class App extends React.Component {
         <div className='header'>
           <div className='logo'>GDB Tracker</div>
           <div className='header-main' />
-          <div className='search'><input type='text' placeholder='GDB no' /></div>
+          <div className='header-add'>[+]</div>
+          <div className='search'><Search /></div>
         </div>
         <div className='main'>
           <Gdbs />

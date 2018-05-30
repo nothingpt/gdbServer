@@ -7,7 +7,27 @@ export default class GDB extends Component {
 
     return (
       <div className='gdb-container'>
-        { gdb.gdbno } - { gdb.customer } - { gdb.createdBy } - { gdb.creationDate } - { gdb.status[sLen - 1].statusType}
+        <div className='gdb-header'>
+          <div className='gdb-customer'>
+            { gdb.customer }
+          </div>
+          <div className='gdb-creationDate'>
+            { gdb.creationDate }
+          </div>
+        </div>
+        <div className='gdb-main'>
+          <div className='gdb-gdbno'>
+            { gdb.gdbno }
+          </div>
+        </div>
+        <div className='gdb-footer'>
+          <div className='gdb-createdBy'>
+            { gdb.createdBy }
+          </div>
+          <div className='gdb-status'>
+            { gdb.status[sLen - 1].statusType}
+          </div>
+        </div>
       </div>
     )
   }

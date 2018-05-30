@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster'); 
+
 html,
 body {
     margin: 0;
@@ -16,8 +18,8 @@ body {
 
 .header {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  background-color: #7bebff;
+  grid-template-columns: auto 1fr auto auto;
+  background-color: #dadada;
   align-content: center;
 }
 
@@ -29,9 +31,73 @@ body {
 
 }
 
+.header-add {
+  margin-right: 3px;
+  color: rgb(134, 134, 134);
+}
+
 .search {
   align-self: center;
   padding-right: 5px;
+}
+
+.gdbListContainer {
+  display: grid;
+  grid-template-columns: 100px 1fr 100px;
+  grid-template-rows: 20px 1fr;
+  grid-gap: 5px;
+}
+
+.GDBtotal {
+  grid-column: 1 / 3;
+  justify-self: right;
+}
+
+.GDBList {
+  grid-column: 2;
+}
+
+.gdb-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  margin-bottom: 10px;  
+  border-top-left-radius: 20px;
+}
+
+.gdb-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  background-color: aquamarine;
+  border-top-left-radius: 20px;
+}
+
+.gdb-main {
+  display: grid;
+}
+
+.gdb-footer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  background-color: aquamarine;
+}
+
+.gdb-customer, .gdb-createdBy, .gdb-creationDate, .gdb-status, .gdb-gdbno {
+  font-family: 'Lobster', cursive;
+}
+
+.gdb-customer, .gdb-createdBy {
+  padding-left: 10px;
+}
+
+.gdb-creationDate, .gdb-status {
+  grid-column: 2/3;
+  justify-self: right;
+  padding-right: 10px;
+}
+
+.gdb-gdbno {
+  justify-self: center;
+  font-size: 3em;
 }
 
 .search input {

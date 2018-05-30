@@ -30,9 +30,13 @@ const Gdbs = () => (
       } else {
         if (data) {
           return (
-            <div>
-            GDBS - { data.GDBS.length }
-              { data.GDBS.map(g => <GDB key={g.gdbno} gdb={g} />)}
+            <div className='gdbListContainer'>
+              <div className='GDBtotal'>
+                Number of GDBS - { data.GDBS.length }
+                </div>
+                <div className='GDBList'>
+                  { data.GDBS.map(g => <GDB key={g.gdbno} gdb={g} />)}
+                </div>              
             </div>
           )
         }
