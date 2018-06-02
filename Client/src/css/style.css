@@ -141,3 +141,12 @@ body {
 .gdb-container {
   border: 1px dotted #b1b1b1;
 }
+
+/*////////*/
+/* newGDB */
+/*////////*/
+.container-newGDB {
+  min-height: 100vh;
+  min-width: 100vh;
+  blur: 5px;
+}

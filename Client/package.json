@@ -25,6 +25,7 @@
     "nodemon": "^1.17.4",
     "react": "^16.3.2",
     "react-apollo": "^2.1.4",
+    "react-modal": "^3.4.5",
     "symbol-observable": "^1.2.0"
   },
   "devDependencies": {
