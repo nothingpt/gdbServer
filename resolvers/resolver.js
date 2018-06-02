@@ -6,6 +6,7 @@ const resolvers = {
       if (args.gdbno) {
         const {gdbno} = args
         const res = new Promise((resolve, reject) => {
+          console.log('res')
           gdbList.findOne({gdbno}, (err, gdb) => {
             if (err) {
               reject(err)
@@ -33,10 +34,11 @@ const resolvers = {
         const res = new Promise((resolve, reject) => {
           gdbList.find({}, (err, gdb) => {
             if (err) {
+              console.log('err: ' + err)
               reject(err)
             }
 
-            return gdb
+            resolve(gdb)
           })
         })
         return res
