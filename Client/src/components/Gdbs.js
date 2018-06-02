@@ -6,7 +6,7 @@ import GDB from './GDB'
 
 const Q = gql`
 query GDBS {
-  GDBS {
+  getGDBS {
     gdbno
     customer
     createdBy
@@ -23,19 +23,24 @@ query GDBS {
 const Gdbs = () => (
   <Query query={Q}>
     {({ data, loading, error }) => {
+      console.log('Entering Query')
       if (loading) {
-        return (<h1>LOADING</h1>)
+        alert('loading')
+        return (<h1>LOADING!!!</h1>)
       } else if (error) {
+        alert('error: ' + error)
         return (<h1>ERROR { error }</h1>)
       } else {
+        alert('Entering data')
         if (data) {
+          alert(`data: ${data.getGDBS}`)
           return (
             <div className='gdbListContainer'>
               <div className='GDBtotal'>
-                Number of GDBS - { data.GDBS.length }
+                Number of GDBS - { data.getGDBS.length }
               </div>
               <div className='GDBList'>
-                { data.GDBS.map(g => <GDB key={g.gdbno} gdb={g} />)}
+                { data.getGDBS.map(g => <GDB key={g.gdbno} gdb={g} />)}
               </div>
             </div>
           )

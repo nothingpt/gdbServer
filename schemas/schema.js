@@ -4,8 +4,8 @@ import resolvers from '../resolvers/resolver'
 
 const typeDefs = `
   type Query {
-    GDB(gdbno: String): GDB,
-    GDBS(createdBy: String): [ GDB ],
+    getGDB(gdbno: String): GDB,
+    getGDBS(createdBy: String): [ GDB ],
     getStatus(gdbno: String!): [Status]
   },
   type Mutation {
@@ -14,7 +14,7 @@ const typeDefs = `
     updateGDB(gdbno: String!, creationDate: String, createdBy: String, customer: String, active: Boolean): GDB
   },
   type GDB {
-    gdbno: String! @unique, 
+    gdbno: String! @unique,
     creationDate: String,
     createdBy: String,
     customer: String!,

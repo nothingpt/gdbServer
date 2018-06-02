@@ -9,6 +9,7 @@ class App extends React.Component {
 
   newGDB () {
     // Todo: Create new gdb
+    alert('new GDB')
   }
 
   render () {

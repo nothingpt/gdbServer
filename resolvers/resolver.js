@@ -1,101 +1,138 @@
-import gdbData from '../data/mock'
+import gdbList from '../models/GDB'
 
 const resolvers = {
   Query: {
-    GDB(root, args) {
+    getGDB (root, args) {
       if (args.gdbno) {
-        console.log(`gdbno: ${args.gdbno}`)
-        var gdbno = args.gdbno
-        return gdbData.filter(gdb => {
-          return gdb.gdbno == gdbno
-        })[0]
+        const {gdbno} = args
+        const res = new Promise((resolve, reject) => {
+          gdbList.findOne({gdbno}, (err, gdb) => {
+            if (err) {
+              reject(err)
+            }
+
+            resolve(gdb)
+          })
+        })
+        return res
       }
     },
-    GDBS(root, args) {
+    getGDBS (root, args) {
       if (args.createdBy) {
-        var createdBy = args.createdBy
-        return gdbData.filter(gdb => gdb.createdBy === createdBy)
+        const {createdBy} = args.createdBy
+        const res = new Promise((resolve, reject) => {
+          gdbList.find({createdBy}, (err, gdb) => {
+            if (err) {
+              reject(err)
+            }
+            resolve(gdb)
+          })
+        })
+        return res
       } else {
-        return gdbData
+        console.log('getGDBS')
+        const res = new Promise((resolve, reject) => {
+          console.log('PROMISE')
+          gdbList.find({}, (err, gdb) => {
+            console.log('FIND')
+            if (err) {
+              console.log('ERR: ' + err)
+              reject(err)
+            }
+
+            console.log('resolved: ' + gdb)
+            resolve(gdb)
+          })
+        })
+        return res
       }
     },
-    //getStatus(gdbno: String!): Status!
-    getStatus(root, args) {
-      const gdb = gdbData.filter(gdb => gdb.gdbno === args.gdbno)
-      console.log('GDB: ' + gdb)
-      return gdb[0].status
+    getStatus (root, args) {
+      const res = new Promise((resolve, reject) => {
+        gdbList.findOne({gdbno: args.gdbno}, (err, gdb) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(gdb)
+        })
+      })
+      return res.status
     }
   },
   Mutation: {
-    createGDB(root, args) {
-      console.log({args})
+    createGDB (root, args) {
+      // Todo: use date
       const newGDB = {
         gdbno: args.gdbno,
-        creationDate: args.creationDate,
+        creationDate: new Date(),
         createdBy: args.createdBy,
         customer: args.customer,
         active: true,
         status: [{
           statusType: args.statusType || 'OPEN',
-          statusDate: args.statusDate || args.creationDate,
+          statusDate: args.statusDate || new Date(),
           statusDesc: args.statusDesc || ''
         }]
       }
-      gdbData.push(newGDB)
-      return newGDB
+
+      const res = new Promise((resolve, reject) => {
+        gdbList.create(newGDB, (err, gdb) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(gdb._doc)
+        })
+      })
+
+      return res
     },
     // updateStatus(gdbno: String!, statusType: String!, statusDate: String, statusDesc: String)
-    updateStatus(root, args) {
-      console.log(`gdbno: ${args.gdbno}`)
-
+    updateStatus (root, args) {
       let status = {statusType: args.statusType}
-      
-      if (args.statusDate !== undefined){
-        status.statusDate = args.statusDate
+      // Create an object with only the fields supplied by the args
+      if (args.statusDate !== undefined) {
+        status.statusDate = args.statusDate || new Date()
       }
 
-      if (args.statusDesc !== undefined){
+      if (args.statusDesc !== undefined) {
         status.statusDesc = args.statusDesc
-      }      
+      }
 
-      gdbData.forEach(gdb => {
-        if (gdb.gdbno === args.gdbno) {
-          gdb.status.push(status)
-        }
+      const res = new Promise((resolve, reject) => {
+        gdbList.update({gdbno: args.gdbno}, {$push: {status}}, (err, doc) => {
+          if (err) {
+            reject(err)
+          }
+
+          const gdb = new Promise((resolve, reject) => {
+            gdbList.findOne({gdbno: args.gdbno}, (err, doc) => {
+              if (err) {
+                reject(err)
+              }
+              resolve(doc)
+            })
+          })
+          resolve(gdb)
+        })
       })
 
-      const gdb = gdbData.filter(gdb => {
-        if (gdb.gdbno === args.gdbno) {
-          return gdb
-        }
-      })
-
-      console.log('GDB: ' + gdb[0].gdbno)
-      return gdb[0]
+      return res
     },
-    //updateGDB(gdbno: String!, creationDate: String, createdBy: String, customer: String, active: Boolean): GDB
+    // updateGDB(gdbno: String!, creationDate: String, createdBy: String, customer: String, active: Boolean): GDB
     updateGDB (root, args) {
-      // find index
-      const index = gdbData.findIndex(gdb => gdb.gdbno == args.gdbno)
+      // create object to store args
+      let gdb = {...args}
 
-      // check if property is supplied in the args object, and if so updates the document
-      if (args.creationDate !== undefined){
-        gdbData[index].creationDate = args.creationDate
-      }
+      const res = new Promise((resolve, reject) => {
+        gdbList.findOneAndUpdate({gdbno: gdb.gdbno}, gdb, {new: true}, (err, doc) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(doc)
+        })
+      })
 
-      if (args.createdBy !== undefined) {
-        gdbData[index].createdBy = args.createdBy
-      }
-
-      if (args.customer !== undefined) {
-        gdbData[index].customer = args.customer
-      }
-
-      if (args.active !== undefined) {
-        gdbData[index].active = args.active
-      }
-
-      return gdbData[index]
+      return res
     }
   }
 }
