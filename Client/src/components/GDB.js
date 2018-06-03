@@ -21,6 +21,13 @@
       this.props.dirty = true;
     }
 
+    closeModal () {
+      this.setState({
+        editGDB: !this.state.editGDB,
+        showModal : false
+      })
+    }
+
     render () {
       const { gdb, dirty } = this.props
       const sLen = gdb.status.length
@@ -31,6 +38,7 @@
             isOpen={this.state.showModal}
             contentLabel="Edit GDB">
             <EditGDB gdb={ gdb } />
+            <button onClick={e => this.closeModal(e)}>close</button>
           </ReactModal>
         )
       } else {
