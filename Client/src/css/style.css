@@ -148,7 +148,7 @@ body {
 }
 
 .history-container {
-  border: 1px solid hsl(0, 0%, 0%);
+  border: 1px solid #000000;
   display: grid;
   max-width: 200px;
   grid-template-columns: auto;
@@ -164,7 +164,5 @@ body {
 /*////////*/
 .container-newGDB {
   min-height: 80vh;
-  min-width: 100vh;
-  blur: 20px;
-  background-color: #ebebeb;
+  min-width: 100vh;  
 }

@@ -6,10 +6,8 @@ import Gdbs from './Gdbs'
 import Search from './Search'
 
 class App extends React.Component {
-
   newGDB () {
     // Todo: Create new gdb
-    alert('new GDB')
   }
 
   render () {

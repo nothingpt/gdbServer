@@ -35,7 +35,7 @@ const Gdbs = () => (
                 Number of GDBS - { data.getGDBS.length }
               </div>
               <div className='GDBList'>
-                { data.getGDBS.map(g => <GDB key={g.gdbno} gdb={g} dirty={false} />)}
+                { data.getGDBS.map(g => <GDB key={g.gdbno} gdb={g} />)}
               </div>
             </div>
           )

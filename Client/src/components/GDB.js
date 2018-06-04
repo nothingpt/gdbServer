@@ -1,74 +1,93 @@
   import React, { Component } from 'react'
   import ReactModal from 'react-modal'
-
+  import Moment from 'react-moment'
+  import gql from 'graphql-tag'
+  import { Mutation } from 'react-apollo'
+  
   import EditGDB from './EditGDB'
-
+  
+  const UPDATE_STATUS = gql`
+  mutation updateStatus($gdbno: String!, $statusType: String, $statusDate: String, $statusDesc: String) {
+    updateStatus(gdbno: $gdbno, statusType: $statusType, statusDate: $statusDate, statusDesc: $statusDesc) {
+      gdbno
+      statusType
+      statusDate
+      statusDesc
+    }
+  }
+  ` 
+  
   export default class GDB extends Component {
     constructor (props) {
       super(props)
       this.state = {
         editGDB : false,
-        showModal : false
+        showHistory: false, 
+        status: ['OPEN', 'CLOSE', 'PREPARE MORE INFO'],
       }
-      // handleClick = this.bind.handleClick(this)
     }
-
-    handleClick () {
+    
+    toggleHistory (e) {
       this.setState({
-        editGDB: !this.state.editGDB,
-        showModal : true
-       })
-      this.props.dirty = true;
-    }
-
-    closeModal () {
-      this.setState({
-        editGDB: !this.state.editGDB,
-        showModal : false
+        showHistory: !this.state.showHistory
       })
     }
-
+    
+    changeStatus (e, key) {
+      e.stopPropagation() // do not activate Modal
+      
+      if (e.target.name === 'statusSelect') {
+        // alert(e.target.value)
+        alert('ID: ' + key)
+        updateStatus({ variables: { gdbno: key, statusType: 'MUTATED' } })
+      }
+      
+      this.setState({editGDB: !this.state.editGDB})
+    }    
+    
     render () {
-      const { gdb, dirty } = this.props
+      const { gdb } = this.props
+      const { status } = gdb
       const sLen = gdb.status.length
-
-      if (this.state.showModal) {
-        return (
-          <ReactModal
-            isOpen={this.state.showModal}
-            contentLabel="Edit GDB">
-            <EditGDB gdb={ gdb } />
-            <button onClick={e => this.closeModal(e)}>close</button>
-          </ReactModal>
-        )
-      } else {
-        return (
-          <span onClick={ e => this.handleClick(e) }>
-          <div className='gdb-container'>
+      
+      return (
+        <Mutation mutation={UPDATE_STATUS}>
+        {(updateStatus, { data }) => (
+        <div className='gdb-container'>
           <div className='gdb-header'>
-          <div className='gdb-customer'>
-          { gdb.customer } - { dirty ? 'dirty' : 'not dirty'}
-          </div>
-          <div className='gdb-creationDate'>
-          { gdb.creationDate }
-          </div>
-          </div>
+            <div className='gdb-customer'>
+            {gdb.customer}
+            </div>
+            <div className='gdb-creationDate'>
+            <Moment format='DD/MM/YYYY'>{ gdb.creationDate }</Moment>
+            </div>
+          </div> 
           <div className='gdb-main'>
-          <div className='gdb-gdbno'>
-          { gdb.gdbno }
-          </div>
+            <div className='gdb-gdbno'>
+            { gdb.gdbno }
+            </div>
           </div>
           <div className='gdb-footer'>
-          <div className='gdb-createdBy'>
-          { gdb.createdBy }
+            <div className='gdb-createdBy'>
+            { gdb.createdBy }
+            </div>
+            { !this.state.editGDB &&
+              <div className='gdb-status' onClick={e => this.changeStatus(e)}>
+                <span>{ gdb.status[sLen - 1].statusType}</span>            
+              </div>
+            }
+            { this.state.editGDB && 
+              <div className='gdb-status' onClick={e => this.changeStatus(e, gdb.gdbno)}>
+                <select name='statusSelect' onChange={e => this.handleChange(e)}>
+                  { this.state.status.map(s => <option value={s}>{s}</option>)}
+                </select>
+              </div>
+            }
           </div>
-          <div className='gdb-status'>
-          { gdb.status[sLen - 1].statusType}
-          </div>
-          </div>
-          </div>
-          </span>
-        )
-      }
+        </div>
+        )}
+        </Mutation>
+      )
     }
   }
+  
