@@ -80,9 +80,8 @@
             }
             { this.state.editGDB && 
               <div className='gdb-status'>
-                <select name='statusSelect' onChange={e => {
-                    console.log(e); 
-                    updateStatus({ variables: { gdbno: gdb.gdbno, statusType: 'MUTATED' } })
+                <select id='statusSelect' name='statusSelect' onChange={e => {
+                    updateStatus({ variables: { gdbno: gdb.gdbno, statusType: document.getElementById('statusSelect').value } })
                   }}>
                   { this.state.status.map(s => <option value={s} key={s}>{s}</option>)}
                 </select>
