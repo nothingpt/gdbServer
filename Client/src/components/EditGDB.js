@@ -38,7 +38,7 @@ class EditGDB extends Component {
         </div>
         { this.state.showHistory && // short-circuit
           <div className='history-container' onMouseOver={e => this.toggleHistory(e)} onMouseOut={e => this.toggleHistory(e)}>
-            { status.map(s => <div>{s.statusType} <span className='status-date'>(<Moment format='DD/MM/YYYY'>{s.statusDate}</Moment>)</span></div>)}
+            { status.map(s => <div key={gdb.gdbno}>{s.statusType} <span className='status-date'>(<Moment format='DD/MM/YYYY'>{s.statusDate}</Moment>)</span></div>)}
           </div>
         }
       </div>

@@ -7,15 +7,17 @@
   import EditGDB from './EditGDB'
   
   const UPDATE_STATUS = gql`
-  mutation updateStatus($gdbno: String!, $statusType: String, $statusDate: String, $statusDesc: String) {
-    updateStatus(gdbno: $gdbno, statusType: $statusType, statusDate: $statusDate, statusDesc: $statusDesc) {
+  mutation updateStatus($gdbno: String!, $statusType: String!) {
+    updateStatus(gdbno: $gdbno, statusType: $statusType) {
       gdbno
-      statusType
-      statusDate
-      statusDesc
+      status {
+        statusType
+        statusDate
+        statusDesc
+      }
     }
   }
-  ` 
+  `
   
   export default class GDB extends Component {
     constructor (props) {
@@ -33,13 +35,11 @@
       })
     }
     
-    changeStatus (e, key) {
+    changeStatus (e, key, value) {
       e.stopPropagation() // do not activate Modal
       
-      if (e.target.name === 'statusSelect') {
-        // alert(e.target.value)
-        alert('ID: ' + key)
-        updateStatus({ variables: { gdbno: key, statusType: 'MUTATED' } })
+      if (e.target.name === 'statusSelect') {        
+        this.updateStatus({ variables: { gdbno: key, statusType: value } })
       }
       
       this.setState({editGDB: !this.state.editGDB})
@@ -52,8 +52,10 @@
       
       return (
         <Mutation mutation={UPDATE_STATUS}>
-        {(updateStatus, { data }) => (
+        {(updateStatus, { loading, error }) => (         
         <div className='gdb-container'>
+          {loading && <div>loading...</div>} 
+          { error && <div>Error</div>}
           <div className='gdb-header'>
             <div className='gdb-customer'>
             {gdb.customer}
@@ -77,9 +79,12 @@
               </div>
             }
             { this.state.editGDB && 
-              <div className='gdb-status' onClick={e => this.changeStatus(e, gdb.gdbno)}>
-                <select name='statusSelect' onChange={e => this.handleChange(e)}>
-                  { this.state.status.map(s => <option value={s}>{s}</option>)}
+              <div className='gdb-status'>
+                <select name='statusSelect' onChange={e => {
+                    console.log(e); 
+                    updateStatus({ variables: { gdbno: gdb.gdbno, statusType: 'MUTATED' } })
+                  }}>
+                  { this.state.status.map(s => <option value={s} key={s}>{s}</option>)}
                 </select>
               </div>
             }
