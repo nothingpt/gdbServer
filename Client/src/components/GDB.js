@@ -78,11 +78,11 @@
               </div>
             }
             { this.state.editGDB && 
-              <div className='gdb-status'>
+              <div className='gdb-status mainselection'>
                 <select id='statusSelect' name='statusSelect' onChange={e => {
                     updateStatus({ variables: { gdbno: gdb.gdbno, statusType: document.getElementById('statusSelect').value } })
                     this.setState({editGDB: !this.state.editGDB})
-                  }}>
+                  }} onMouseLeave = {e => {this.setState({editGDB: false}) }}>
                   { this.state.status.map(s => <option value={s} key={s}>{s}</option>)}
                 </select>
               </div>
