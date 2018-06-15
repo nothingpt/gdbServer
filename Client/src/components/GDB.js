@@ -37,12 +37,11 @@
     
     changeStatus (e, key, value) {
       e.stopPropagation() // do not activate Modal
-      
+      this.setState({editGDB: !this.state.editGDB})
       if (e.target.name === 'statusSelect') {        
         this.updateStatus({ variables: { gdbno: key, statusType: value } })
-      }
-      
-      this.setState({editGDB: !this.state.editGDB})
+        
+      }      
     }    
     
     render () {
@@ -82,6 +81,7 @@
               <div className='gdb-status'>
                 <select id='statusSelect' name='statusSelect' onChange={e => {
                     updateStatus({ variables: { gdbno: gdb.gdbno, statusType: document.getElementById('statusSelect').value } })
+                    this.setState({editGDB: !this.state.editGDB})
                   }}>
                   { this.state.status.map(s => <option value={s} key={s}>{s}</option>)}
                 </select>
